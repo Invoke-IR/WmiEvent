@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\NtEventLogEventConsumer">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>NtEventLogEventConsumer</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+         <GetCmdletParameters DefaultCmdletParameterSet="ByName">
+          <QueryableProperties>
+            <Property PropertyName="Name">
+              <Type PSType="string"/>
+              <RegularQuery AllowGlobbing="true">
+                <CmdletParameterMetadata IsMandatory="false" CmdletParameterSets="ByName"/>
+              </RegularQuery>
+            </Property>          
+          </QueryableProperties>
+        </GetCmdletParameters>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+    <StaticCmdlets>
+      <Cmdlet>
+        <CmdletMetadata Verb="New"/>
+        <Method MethodName="cim:CreateInstance">
+          <Parameters>
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="Category">
+              <Type PSType="System.UInt16"/>
+              <CmdletParameterMetadata>
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="EventID">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="EventType">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata>
+                <ValidateNotNullOrEmpty />
+                <ValidateSet>
+		          <AllowedValue>0x00</AllowedValue>
+                  <AllowedValue>0x01</AllowedValue>
+                  <AllowedValue>0x02</AllowedValue>
+                  <AllowedValue>0x04</AllowedValue>
+                  <AllowedValue>0x08</AllowedValue>
+                  <AllowedValue>0x10</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="InsertionStringTemplates">
+              <Type PSType="System.String[]"/>
+            </Parameter>
+            <Parameter ParameterName="NameOfUserSidProperty">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+            <Parameter ParameterName="NameOfRawDataProperty">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+            <Parameter ParameterName="SourceName">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNull />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="UNCServerName">
+              <Type PSType="System.String"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+      </Cmdlet>
+    </StaticCmdlets>
+  </Class>
+</PowerShellMetadata>

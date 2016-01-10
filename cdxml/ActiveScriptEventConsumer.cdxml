@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\ActiveScriptEventConsumer">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>ActiveScriptEventConsumer</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+         <GetCmdletParameters DefaultCmdletParameterSet="ByName">
+          <QueryableProperties>
+            <Property PropertyName="Name">
+              <Type PSType="string"/>
+              <RegularQuery AllowGlobbing="true">
+                <CmdletParameterMetadata IsMandatory="false" CmdletParameterSets="ByName"/>
+              </RegularQuery>
+            </Property>          
+          </QueryableProperties>
+        </GetCmdletParameters>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+    <StaticCmdlets>
+      <Cmdlet>
+        <CmdletMetadata Verb="New"/>
+        <Method MethodName="cim:CreateInstance" CmdletParameterSet="ScriptFileName">
+          <Parameters>
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="KillTimeout">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="ScriptingEngine">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateSet>
+		          <AllowedValue>jscript</AllowedValue>
+                  <AllowedValue>VBScript</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="ScriptFileName">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+        <Method MethodName="cim:CreateInstance" CmdletParameterSet="ScriptText">
+          <Parameters>
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="KillTimeout">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="ScriptingEngine">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateSet>
+		          <AllowedValue>jscript</AllowedValue>
+                  <AllowedValue>VBScript</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="ScriptText">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+      </Cmdlet>
+    </StaticCmdlets>
+  </Class>
+</PowerShellMetadata>

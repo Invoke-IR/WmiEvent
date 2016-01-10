@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\SmtpEventConsumer">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>SmtpEventConsumer</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+         <GetCmdletParameters DefaultCmdletParameterSet="ByName">
+          <QueryableProperties>
+            <Property PropertyName="Name">
+              <Type PSType="string"/>
+              <RegularQuery AllowGlobbing="true">
+                <CmdletParameterMetadata IsMandatory="false" CmdletParameterSets="ByName"/>
+              </RegularQuery>
+            </Property>          
+          </QueryableProperties>
+        </GetCmdletParameters>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+    <StaticCmdlets>
+      <Cmdlet>
+        <CmdletMetadata Verb="New"/>
+        <Method MethodName="cim:CreateInstance">
+          <Parameters>
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="BccLine">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="CcLine">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="FromLine">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="HeaderFields">
+              <Type PSType="System.String[]"/>
+            </Parameter>
+            <Parameter ParameterName="Message">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true" />
+            </Parameter>
+            <Parameter ParameterName="ReplyToLine">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="SMTPServer">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="Subject">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="ToLine">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true" />
+            </Parameter>
+          </Parameters>
+        </Method>
+      </Cmdlet>
+    </StaticCmdlets>
+  </Class>
+</PowerShellMetadata>

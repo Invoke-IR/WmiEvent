@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\LogFileEventConsumer">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>LogFileEventConsumer</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+         <GetCmdletParameters DefaultCmdletParameterSet="ByName">
+          <QueryableProperties>
+            <Property PropertyName="Name">
+              <Type PSType="string"/>
+              <RegularQuery AllowGlobbing="true">
+                <CmdletParameterMetadata IsMandatory="false" CmdletParameterSets="ByName"/>
+              </RegularQuery>
+            </Property>          
+          </QueryableProperties>
+        </GetCmdletParameters>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+     <StaticCmdlets>
+      <Cmdlet>
+        <CmdletMetadata Verb="New"/>
+        <Method MethodName="cim:CreateInstance">
+          <Parameters>
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="FileName">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+            <Parameter ParameterName="IsUnicode">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="MaximumFileSize">
+              <Type PSType="System.UInt64"/>
+            </Parameter>
+            <Parameter ParameterName="Text">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+      </Cmdlet>
+    </StaticCmdlets>
+  </Class>
+</PowerShellMetadata>

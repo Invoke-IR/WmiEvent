@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\CommandLineEventConsumer">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>CommandLineEventConsumer</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+         <GetCmdletParameters DefaultCmdletParameterSet="ByName">
+          <QueryableProperties>
+            <Property PropertyName="Name">
+              <Type PSType="string"/>
+              <RegularQuery AllowGlobbing="true">
+                <CmdletParameterMetadata IsMandatory="false" CmdletParameterSets="ByName"/>
+              </RegularQuery>
+            </Property>          
+          </QueryableProperties>
+        </GetCmdletParameters>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+    <StaticCmdlets>
+      <Cmdlet>
+        <CmdletMetadata Verb="New"/>
+        <Method MethodName="cim:CreateInstance" CmdletParameterSet="CommandLineTemplateSet">
+          <Parameters>        
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="CommandLineTemplate">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+            <Parameter ParameterName="CreateNewProcessGroup">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="CreateSeparateWowVdm">
+              <Type PSType="System.Boolean"/>
+            </Parameter>        
+            <Parameter ParameterName="CreateSharedWowVdm">
+              <Type PSType="System.Boolean"/>
+            </Parameter>            
+            <Parameter ParameterName="ForceOffFeedback">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="ForceOnFeedback">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="KillTimeout">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="Priority">
+              <Type PSType="System.Int32"/>
+              <CmdletParameterMetadata>
+                <ValidateSet>
+		          <AllowedValue>0x20</AllowedValue>
+                  <AllowedValue>0x40</AllowedValue>
+                  <AllowedValue>0x80</AllowedValue>
+                  <AllowedValue>0x100</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter>    
+            <Parameter ParameterName="RunInteractively">
+              <Type PSType="System.Boolean"/>
+            </Parameter>  
+            <Parameter ParameterName="ShowWindowCommand">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata>
+                <ValidateSet>
+		          <AllowedValue>0x00</AllowedValue>
+                  <AllowedValue>0x01</AllowedValue>
+                  <AllowedValue>0x02</AllowedValue>
+                  <AllowedValue>0x03</AllowedValue>
+                  <AllowedValue>0x04</AllowedValue>
+                  <AllowedValue>0x05</AllowedValue>
+                  <AllowedValue>0x06</AllowedValue>
+                  <AllowedValue>0x07</AllowedValue>
+                  <AllowedValue>0x08</AllowedValue>
+                  <AllowedValue>0x09</AllowedValue>
+                  <AllowedValue>0x0A</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter> 
+            <Parameter ParameterName="UseDefaultErrorMode">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="WindowTitle">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="WorkingDirectory">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="XCoordinate">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="XNumCharacters">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="XSize">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YCoordinate">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YNumCharacters">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YSize">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+        <Method MethodName="cim:CreateInstance" CmdletParameterSet="ExecutablePathSet">
+          <Parameters>        
+            <Parameter ParameterName="Name">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateNotNullOrEmpty />
+              </CmdletParameterMetadata>
+            </Parameter>
+            <Parameter ParameterName="ExecutablePath">
+              <Type PSType="System.String"/>
+              <CmdletParameterMetadata IsMandatory="true"/>
+            </Parameter>
+            <Parameter ParameterName="CreateNewProcessGroup">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="CreateSeparateWowVdm">
+              <Type PSType="System.Boolean"/>
+            </Parameter>        
+            <Parameter ParameterName="CreateSharedWowVdm">
+              <Type PSType="System.Boolean"/>
+            </Parameter>            
+            <Parameter ParameterName="ForceOffFeedback">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="ForceOnFeedback">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="KillTimeout">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="Priority">
+              <Type PSType="System.Int32"/>
+              <CmdletParameterMetadata>
+                <ValidateSet>
+		          <AllowedValue>0x20</AllowedValue>
+                  <AllowedValue>0x40</AllowedValue>
+                  <AllowedValue>0x80</AllowedValue>
+                  <AllowedValue>0x100</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter>    
+            <Parameter ParameterName="RunInteractively">
+              <Type PSType="System.Boolean"/>
+            </Parameter>  
+            <Parameter ParameterName="ShowWindowCommand">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata>
+                <ValidateSet>
+		          <AllowedValue>0x00</AllowedValue>
+                  <AllowedValue>0x01</AllowedValue>
+                  <AllowedValue>0x02</AllowedValue>
+                  <AllowedValue>0x03</AllowedValue>
+                  <AllowedValue>0x04</AllowedValue>
+                  <AllowedValue>0x05</AllowedValue>
+                  <AllowedValue>0x06</AllowedValue>
+                  <AllowedValue>0x07</AllowedValue>
+                  <AllowedValue>0x08</AllowedValue>
+                  <AllowedValue>0x09</AllowedValue>
+                  <AllowedValue>0x0A</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
+            </Parameter> 
+            <Parameter ParameterName="UseDefaultErrorMode">
+              <Type PSType="System.Boolean"/>
+            </Parameter>
+            <Parameter ParameterName="WindowTitle">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="WorkingDirectory">
+              <Type PSType="System.String"/>
+            </Parameter>
+            <Parameter ParameterName="XCoordinate">
+              <Type PSType="System.UInt32"/>
+            </Parameter>
+            <Parameter ParameterName="XNumCharacters">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="XSize">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YCoordinate">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YNumCharacters">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+            <Parameter ParameterName="YSize">
+              <Type PSType="System.UInt32"/>
+              <CmdletParameterMetadata IsMandatory="false"/>
+            </Parameter>
+          </Parameters>
+        </Method>
+      </Cmdlet>
+    </StaticCmdlets>
+  </Class>
+</PowerShellMetadata>

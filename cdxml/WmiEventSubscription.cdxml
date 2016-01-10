@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
+  <Class ClassName="root\subscription\__FilterToConsumerBinding">
+    <Version>1.0.0.0</Version>
+    <DefaultNoun>WmiEventSubscription</DefaultNoun>
+    <InstanceCmdlets>
+      <GetCmdletParameters/>
+       <GetCmdlet>
+        <CmdletMetadata Verb="Get" HelpUri="http://link.to.online.help"/>
+      </GetCmdlet>           
+     </InstanceCmdlets>
+  </Class>
+</PowerShellMetadata>
