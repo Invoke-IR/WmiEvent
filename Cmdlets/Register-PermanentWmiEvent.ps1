@@ -1,9 +1,9 @@
-﻿function New-WmiEventConsumer
+﻿function Register-PermanentWmiEvent
 {
     [CmdletBinding()]
     Param(
         #region CommonParameters
-
+        
         [Parameter(ParameterSetName = 'ActiveScriptFileComputerSet')]
         [Parameter(ParameterSetName = 'ActiveScriptTextComputerSet')]
         [Parameter(ParameterSetName = 'CommandLineComputerSet')]
@@ -40,11 +40,28 @@
         [ValidateNotNullOrEmpty()]
         [string]
         $Name,
+        
+        #endregion CommonParameters
 
-        [Parameter()]
-        [Int32]
-        $ThrottleLimit = 32,
+        #region FilterParameters
+        
+        [Parameter(Mandatory)]
+        [string]
+        $EventNamespace,
+        
+        [Parameter(Mandatory)]
+        [string]
+        $Query,
+        
+        [Parameter(Mandatory)]
+        [ValidateSet('WQL')]
+        [string]
+        $QueryLanguage,
 
+        #endregion FilterParameters
+
+        #region CommonConsumerParameters
+        
         [Parameter(ParameterSetName = 'ActiveScriptFileComputerSet')]
         [Parameter(ParameterSetName = 'ActiveScriptFileSessionSet')]
         [Parameter(ParameterSetName = 'ActiveScriptTextComputerSet')] 
@@ -55,7 +72,7 @@
         [Parameter(ParameterSetName = 'CommandLineTemplateSessionSet')]
         [UInt32]$KillTimeout = 0,
         
-        #endregion CommonParameters
+        #endregion CommonConsumerParameters
 
         #region ActiveScriptParameters
 
@@ -342,7 +359,13 @@
 
     begin
     {
-        $parameters = $PSBoundParameters
+        $FilterParamKeys = $PSBoundParameters.Keys | Where-Object { $_ -in (Get-Command New-WmiEventFilter | ForEach-Object Parameters | ForEach-Object Keys) }
+        $FilterProps = @{}
+        $FilterParamKeys | ForEach-Object { $FilterProps[$_] = $PSBoundParameters[$_] }
+        
+        $ConsumerParamKeys = $PSBoundParameters.Keys | Where-Object { $_ -in (Get-Command New-WmiEventConsumer | ForEach-Object Parameters | ForEach-Object Keys) }
+        $ConsumerProps = @{}
+        $ConsumerParamKeys | ForEach-Object { $ConsumerProps[$_] = $PSBoundParameters[$_] }
 
         if($PSCmdlet.ParameterSetName.Contains('ComputerSet'))
         {
@@ -352,56 +375,94 @@
                 {
                     #Here we have to get CimSessions
                     $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
+                    $FilterProps.Remove('Credential')
+                    $ConsumerProps.Remove('Credential')
                 }
                 else
                 {
                     #Here we have to get CimSessions
                     $CimSession = New-CimSessionDcom -ComputerName $ComputerName
                 }
-                
-                #Remove ComputerName from $parameters
-                $parameters.Remove('ComputerName') | Out-Null
-
-                #Remove Credential from $parameters
-                $parameters.Remove('Credential') | Out-Null
-
-                #Add CimSessions to $parameters
-                $parameters.Add('CimSession', $CimSession)
+                $FilterProps.Remove('ComputerName')
+                $ConsumerProps.Remove('ComputerName')
             }
+        }
+        else
+        {
+            $FilterProps.Remove('CimSession')
+            $ConsumerProps.Remove('CimSession')
         }
     }
 
     process
     {
-        if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
-        {
-            $Jobs = New-ActiveScriptEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
-        {
-            $Jobs = New-CommandLineEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
-        {
-            $Jobs = New-LogFileEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
-        {
-            $Jobs = New-NtEventLogEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
-        }
-        elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
-        {
-            $Jobs = New-SmtpEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+        if(($PSBoundParameters.ContainsKey('ComputerName')) -or ($PSBoundParameters.ContainsKey('CimSession')))
+        {                
+            foreach($s in $CimSession)
+            {
+                $Filter = New-WmiEventFilter @FilterProps -CimSession $s
+
+                if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
+                {
+                    $Consumer = New-ActiveScriptEventConsumer @ConsumerProps -CimSession $s
+                }
+                elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
+                {
+                    $Consumer = New-CommandLineEventConsumer @ConsumerProps -CimSession $s
+                }
+                elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
+                {
+                    $Consumer = New-LogFileEventConsumer @ConsumerProps -CimSession $s
+                }
+                elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
+                {
+                    $Consumer = New-NtEventLogEventConsumer @ConsumerProps -CimSession $s
+                }
+                elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
+                {
+                    $Consumer = New-SmtpEventConsumer @ConsumerProps -CimSession $s
+                }
+                else
+                {
+                    Write-Error -Message 'Invalid Consumer Type'
+                }
+
+                New-WmiEventSubscription -Filter $Filter -Consumer $Consumer -CimSession $s
+            }
         }
         else
         {
-            Write-Error -Message "$($PSCmdlet.ParameterSetName) is an invalid ParameterSet."
-        }
+            $Filter = New-WmiEventFilter @FilterProps
 
-        Receive-Job -Job $Jobs -Wait
-        $Jobs | Remove-Job
+            if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
+            {
+                $Consumer = New-ActiveScriptEventConsumer @ConsumerProps
+            }
+            elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
+            {
+                $Consumer = New-CommandLineEventConsumer @ConsumerProps
+            }
+            elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
+            {
+                $Consumer = New-LogFileEventConsumer @ConsumerProps
+            }
+            elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
+            {
+                $Consumer = New-NtEventLogEventConsumer @ConsumerProps
+            }
+            elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
+            {
+                $Consumer = New-SmtpEventConsumer @ConsumerProps
+            }
+            else
+            {
+                Write-Error -Message 'Invalid Consumer Type'
+            }
+
+            New-WmiEventSubscription -Filter $Filter -Consumer $Consumer -CimSession $s
+        }
     }
-    
+
     end
     {
         if($PSBoundParameters.ContainsKey('ComputerName'))

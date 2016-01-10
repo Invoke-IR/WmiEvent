@@ -2,52 +2,65 @@
 {
     [CmdletBinding()]
     Param(
-        [Parameter(ParameterSetName = 'ComputerNameSet')]
+        [Parameter(ParameterSetName = 'ComputerByNameSet')]
+        [Parameter(ParameterSetName = 'ComputerByValueSet')]
         [ValidateNotNullOrEmpty()]
         [string[]]
         $ComputerName = 'localhost',
 
-        [Parameter(ParameterSetName = 'ComputerNameSet')]
+        [Parameter(ParameterSetName = 'ComputerByNameSet')]
+        [Parameter(ParameterSetName = 'ComputerByValueSet')]
         [Management.Automation.PSCredential]
         [Management.Automation.CredentialAttribute()]
         $Credential = [Management.Automation.PSCredential]::Empty,
 
-        [Parameter(Mandatory, ParameterSetName = 'CimSessionSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByNameSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByValueSet')]
         [Microsoft.Management.Infrastructure.CimSession[]]
         $CimSession,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ComputerByNameSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByNameSet')]
         [string]
         $FilterName,
         
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ComputerByNameSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByNameSet')]
         [ValidateSet('ActiveScriptEventConsumer', 'CommandLineEventConsumer', 'LogFileEventConsumer', 'NtEventLogEventConsumer', 'SMTPEventConsumer')]
         [string]
         $ConsumerType,
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, ParameterSetName = 'ComputerByNameSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByNameSet')]
         [string]
-        $ConsumerName
+        $ConsumerName,
+
+        [Parameter(Mandatory, ParameterSetName = 'ComputerByValueSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByValueSet')]
+        [ciminstance]
+        $Consumer,
+
+        [Parameter(Mandatory, ParameterSetName = 'ComputerByValueSet')]
+        [Parameter(Mandatory, ParameterSetName = 'SessionByValueSet')]
+        [ciminstance]
+        $Filter
     )
 
     begin
     {
         $class = Get-CimClass -Namespace root\subscription -ClassName __FilterToConsumerBinding
 
-        if($PSCmdlet.ParameterSetName.Contains('ComputerSet'))
+        if($PSBoundParameters.ContainsKey('ComputerName'))
         {
-            if($PSBoundParameters.ContainsKey('ComputerName'))
+            if($PSBoundParameters.ContainsKey('Credential'))
             {
-                if($PSBoundParameters.ContainsKey('Credential'))
-                {
-                    #Here we have to get CimSessions
-                    $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
-                }
-                else
-                {
-                    #Here we have to get CimSessions
-                    $CimSession = New-CimSessionDcom -ComputerName $ComputerName
-                }
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
+            }
+            else
+            {
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName
             }
         }
     }
@@ -58,33 +71,36 @@
         {                
             foreach($s in $CimSession)
             {
-                $Filter = Get-wmieventFilter -Name $FilterName -CimSession $s
-
-                switch($ConsumerType)
+                if($PSCmdlet.ParameterSetName.Contains('ByName'))
                 {
-                    ActiveScriptEventConsumer
+                    $Filter = Get-WmiEventFilter -Name $FilterName -CimSession $s
+
+                    switch($ConsumerType)
                     {
-                        $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName -CimSession $s
-                    }
-                    CommandLineEventConsumer
-                    {
-                        $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName -CimSession $s
-                    }
-                    LogFileEventConsumer
-                    {
-                        $Consumer = Get-LogFileEventConsumer -Name $ConsumerName -CimSession $s
-                    }
-                    NtEventLogEventConsumer
-                    {
-                        $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName -CimSession $s
-                    }
-                    SmtpEventConsumer
-                    {
-                        $Consumer = Get-SmtpEventConsumer -Name $ConsumerType -CimSession $s
-                    }
-                    default
-                    {
-                        Write-Error -Message 'Invalid Consumer Type'
+                        ActiveScriptEventConsumer
+                        {
+                            $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName -CimSession $s
+                        }
+                        CommandLineEventConsumer
+                        {
+                            $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName -CimSession $s
+                        }
+                        LogFileEventConsumer
+                        {
+                            $Consumer = Get-LogFileEventConsumer -Name $ConsumerName -CimSession $s
+                        }
+                        NtEventLogEventConsumer
+                        {
+                            $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName -CimSession $s
+                        }
+                        SmtpEventConsumer
+                        {
+                            $Consumer = Get-SmtpEventConsumer -Name $ConsumerType -CimSession $s
+                        }
+                        default
+                        {
+                            Write-Error -Message 'Invalid Consumer Type'
+                        }
                     }
                 }
 
@@ -98,33 +114,36 @@
         }
         else
         {
-            $Filter = Get-WmiEventFilter -Name $FilterName
-
-            switch($ConsumerType)
+            if($PSCmdlet.ParameterSetName.Contains('ByName'))
             {
-                ActiveScriptEventConsumer
+                $Filter = Get-WmiEventFilter -Name $FilterName
+
+                switch($ConsumerType)
                 {
-                    $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName
-                }
-                CommandLineEventConsumer
-                {
-                    $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName
-                }
-                LogFileEventConsumer
-                {
-                    $Consumer = Get-LogFileEventConsumer -Name $ConsumerName
-                }
-                NtEventLogEventConsumer
-                {
-                    $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName
-                }
-                SmtpEventConsumer
-                {
-                    $Consumer = Get-SmtpEventConsumer -Name $ConsumerName
-                }
-                default
-                {
-                    Write-Error -Message 'Invalid Consumer Type'
+                    ActiveScriptEventConsumer
+                    {
+                        $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName
+                    }
+                    CommandLineEventConsumer
+                    {
+                        $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName
+                    }
+                    LogFileEventConsumer
+                    {
+                        $Consumer = Get-LogFileEventConsumer -Name $ConsumerName
+                    }
+                    NtEventLogEventConsumer
+                    {
+                        $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName
+                    }
+                    SmtpEventConsumer
+                    {
+                        $Consumer = Get-SmtpEventConsumer -Name $ConsumerName
+                    }
+                    default
+                    {
+                        Write-Error -Message 'Invalid Consumer Type'
+                    }
                 }
             }
 

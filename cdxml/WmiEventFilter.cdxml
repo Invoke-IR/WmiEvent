@@ -38,7 +38,11 @@
             </Parameter>
             <Parameter ParameterName="QueryLanguage">
               <Type PSType="System.String"/>
-              <CmdletParameterMetadata IsMandatory="true"/>
+              <CmdletParameterMetadata IsMandatory="true">
+                <ValidateSet>
+		          <AllowedValue>WQL</AllowedValue>
+                </ValidateSet>
+              </CmdletParameterMetadata>
             </Parameter>
           </Parameters>
         </Method>
