@@ -43,7 +43,7 @@
 
         [Parameter()]
         [Int32]
-        $ThrottleLimit = 32,
+        $ThrottleLimit,
 
         [Parameter(ParameterSetName = 'ActiveScriptFileComputerSet')]
         [Parameter(ParameterSetName = 'ActiveScriptFileSessionSet')]
@@ -53,7 +53,8 @@
         [Parameter(ParameterSetName = 'CommandLineSessionSet')]
         [Parameter(ParameterSetName = 'CommandLineTemplateComputerSet')]
         [Parameter(ParameterSetName = 'CommandLineTemplateSessionSet')]
-        [UInt32]$KillTimeout = 0,
+        [UInt32]
+        $KillTimeout,
         
         #endregion CommonParameters
 
@@ -344,30 +345,27 @@
     {
         $parameters = $PSBoundParameters
 
-        if($PSCmdlet.ParameterSetName.Contains('ComputerSet'))
+        if($PSBoundParameters.ContainsKey('ComputerName'))
         {
-            if($PSBoundParameters.ContainsKey('ComputerName'))
+            if($PSBoundParameters.ContainsKey('Credential'))
             {
-                if($PSBoundParameters.ContainsKey('Credential'))
-                {
-                    #Here we have to get CimSessions
-                    $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
-                }
-                else
-                {
-                    #Here we have to get CimSessions
-                    $CimSession = New-CimSessionDcom -ComputerName $ComputerName
-                }
-                
-                #Remove ComputerName from $parameters
-                $parameters.Remove('ComputerName') | Out-Null
-
-                #Remove Credential from $parameters
-                $parameters.Remove('Credential') | Out-Null
-
-                #Add CimSessions to $parameters
-                $parameters.Add('CimSession', $CimSession)
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName -Credential $Credential
             }
+            else
+            {
+                #Here we have to get CimSessions
+                $CimSession = New-CimSessionDcom -ComputerName $ComputerName
+            }
+                
+            #Remove ComputerName from $parameters
+            $parameters.Remove('ComputerName') | Out-Null
+
+            #Remove Credential from $parameters
+            $parameters.Remove('Credential') | Out-Null
+
+            #Add CimSessions to $parameters
+            $parameters.Add('CimSession', $CimSession)
         }
     }
 
@@ -375,23 +373,23 @@
     {
         if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
         {
-            $Jobs = New-ActiveScriptEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+            $Jobs = New-ActiveScriptEventConsumerX @parameters -AsJob
         }
         elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
         {
-            $Jobs = New-CommandLineEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+            $Jobs = New-CommandLineEventConsumerX @parameters -AsJob
         }
         elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
         {
-            $Jobs = New-LogFileEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+            $Jobs = New-LogFileEventConsumerX @parameters -AsJob
         }
         elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
         {
-            $Jobs = New-NtEventLogEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+            $Jobs = New-NtEventLogEventConsumerX @parameters -AsJob
         }
         elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
         {
-            $Jobs = New-SmtpEventConsumer @parameters -AsJob -ThrottleLimit $ThrottleLimit
+            $Jobs = New-SmtpEventConsumerX @parameters -AsJob
         }
         else
         {

@@ -2,7 +2,7 @@
 <PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
   <Class ClassName="root\subscription\CommandLineEventConsumer">
     <Version>1.0.0.0</Version>
-    <DefaultNoun>CommandLineEventConsumer</DefaultNoun>
+    <DefaultNoun>CommandLineEventConsumerX</DefaultNoun>
     <InstanceCmdlets>
       <GetCmdletParameters/>
        <GetCmdlet>

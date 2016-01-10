@@ -73,29 +73,29 @@
             {
                 if($PSCmdlet.ParameterSetName.Contains('ByName'))
                 {
-                    $Filter = Get-WmiEventFilter -Name $FilterName -CimSession $s
+                    $Filter = Get-WmiEventFilterX -Name $FilterName -CimSession $s
 
                     switch($ConsumerType)
                     {
                         ActiveScriptEventConsumer
                         {
-                            $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName -CimSession $s
+                            $Consumer = Get-ActiveScriptEventConsumerX -Name $ConsumerName -CimSession $s
                         }
                         CommandLineEventConsumer
                         {
-                            $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName -CimSession $s
+                            $Consumer = Get-CommandLineEventConsumerX -Name $ConsumerName -CimSession $s
                         }
                         LogFileEventConsumer
                         {
-                            $Consumer = Get-LogFileEventConsumer -Name $ConsumerName -CimSession $s
+                            $Consumer = Get-LogFileEventConsumerX -Name $ConsumerName -CimSession $s
                         }
                         NtEventLogEventConsumer
                         {
-                            $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName -CimSession $s
+                            $Consumer = Get-NtEventLogEventConsumerX -Name $ConsumerName -CimSession $s
                         }
                         SmtpEventConsumer
                         {
-                            $Consumer = Get-SmtpEventConsumer -Name $ConsumerType -CimSession $s
+                            $Consumer = Get-SmtpEventConsumerX -Name $ConsumerType -CimSession $s
                         }
                         default
                         {
@@ -116,29 +116,29 @@
         {
             if($PSCmdlet.ParameterSetName.Contains('ByName'))
             {
-                $Filter = Get-WmiEventFilter -Name $FilterName
+                $Filter = Get-WmiEventFilterX -Name $FilterName
 
                 switch($ConsumerType)
                 {
                     ActiveScriptEventConsumer
                     {
-                        $Consumer = Get-ActiveScriptEventConsumer -Name $ConsumerName
+                        $Consumer = Get-ActiveScriptEventConsumerX -Name $ConsumerName
                     }
                     CommandLineEventConsumer
                     {
-                        $Consumer = Get-CommandLineEventConsumer -Name $ConsumerName
+                        $Consumer = Get-CommandLineEventConsumerX -Name $ConsumerName
                     }
                     LogFileEventConsumer
                     {
-                        $Consumer = Get-LogFileEventConsumer -Name $ConsumerName
+                        $Consumer = Get-LogFileEventConsumerX -Name $ConsumerName
                     }
                     NtEventLogEventConsumer
                     {
-                        $Consumer = Get-NtEventLogEventConsumer -Name $ConsumerName
+                        $Consumer = Get-NtEventLogEventConsumerX -Name $ConsumerName
                     }
                     SmtpEventConsumer
                     {
-                        $Consumer = Get-SmtpEventConsumer -Name $ConsumerName
+                        $Consumer = Get-SmtpEventConsumerX -Name $ConsumerName
                     }
                     default
                     {

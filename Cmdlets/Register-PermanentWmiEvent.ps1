@@ -400,27 +400,27 @@
         {                
             foreach($s in $CimSession)
             {
-                $Filter = New-WmiEventFilter @FilterProps -CimSession $s
+                $Filter = New-WmiEventFilterX @FilterProps -CimSession $s
 
                 if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
                 {
-                    $Consumer = New-ActiveScriptEventConsumer @ConsumerProps -CimSession $s
+                    $Consumer = New-ActiveScriptEventConsumerX @ConsumerProps -CimSession $s
                 }
                 elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
                 {
-                    $Consumer = New-CommandLineEventConsumer @ConsumerProps -CimSession $s
+                    $Consumer = New-CommandLineEventConsumerX @ConsumerProps -CimSession $s
                 }
                 elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
                 {
-                    $Consumer = New-LogFileEventConsumer @ConsumerProps -CimSession $s
+                    $Consumer = New-LogFileEventConsumerX @ConsumerProps -CimSession $s
                 }
                 elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
                 {
-                    $Consumer = New-NtEventLogEventConsumer @ConsumerProps -CimSession $s
+                    $Consumer = New-NtEventLogEventConsumerX @ConsumerProps -CimSession $s
                 }
                 elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
                 {
-                    $Consumer = New-SmtpEventConsumer @ConsumerProps -CimSession $s
+                    $Consumer = New-SmtpEventConsumerX @ConsumerProps -CimSession $s
                 }
                 else
                 {
@@ -432,27 +432,27 @@
         }
         else
         {
-            $Filter = New-WmiEventFilter @FilterProps
+            $Filter = New-WmiEventFilterX @FilterProps
 
             if($PSCmdlet.ParameterSetName.Contains('ActiveScript'))
             {
-                $Consumer = New-ActiveScriptEventConsumer @ConsumerProps
+                $Consumer = New-ActiveScriptEventConsumerX @ConsumerProps
             }
             elseif($PSCmdlet.ParameterSetName.Contains('CommandLine'))
             {
-                $Consumer = New-CommandLineEventConsumer @ConsumerProps
+                $Consumer = New-CommandLineEventConsumerX @ConsumerProps
             }
             elseif($PSCmdlet.ParameterSetName.Contains('LogFile'))
             {
-                $Consumer = New-LogFileEventConsumer @ConsumerProps
+                $Consumer = New-LogFileEventConsumerX @ConsumerProps
             }
             elseif($PSCmdlet.ParameterSetName.Contains('NtEventLog'))
             {
-                $Consumer = New-NtEventLogEventConsumer @ConsumerProps
+                $Consumer = New-NtEventLogEventConsumerX @ConsumerProps
             }
             elseif($PSCmdlet.ParameterSetName.Contains('Smtp'))
             {
-                $Consumer = New-SmtpEventConsumer @ConsumerProps
+                $Consumer = New-SmtpEventConsumerX @ConsumerProps
             }
             else
             {
