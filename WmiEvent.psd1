@@ -80,7 +80,7 @@ FunctionsToExport = @(
     'Get-CommandLineEventConsumer'
     'Get-LogFileEventConsumer'
     'Get-NtEventLogEventConsumer'
-    'Get-SmtpEventLogEventConsumer'
+    'Get-SmtpEventConsumer'
     'Get-WmiEventConsumer'
     'Get-WmiEventFilter'
     'Get-WmiEventSubscription'
