@@ -16,19 +16,18 @@
     {
         $parameters = @{
             SessionOption = (New-CimSessionOption -Protocol Dcom);
-            SkipTestConnection = $True;
-            Credential = $Credential;
             ComputerName = $ComputerName;
-        }   
+        }
+        if($PSBoundParameters['Credential']) {
+            $parameters['Credential'] = $Credential
+        }
     }
 
     process
     {
-        New-CimSession @parameters
-    }
-
-    end
-    {
-
+        New-CimSession @parameters -ErrorAction SilentlyContinue -ErrorVariable err
+        $err | ForEach-Object {
+            Write-Warning "Error accessing RPC server on $($_.OriginInfo.PSComputerName)"
+        }
     }
 }
