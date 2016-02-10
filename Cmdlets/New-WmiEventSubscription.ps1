@@ -69,6 +69,8 @@
         {                
             foreach($s in $CimSession)
             {
+                $Class = Get-CimClass -Namespace root\subscription -ClassName __FilterToConsumerBinding -CimSession $s
+
                 if($PSCmdlet.ParameterSetName.Contains('ByName'))
                 {
                     $Filter = Get-WmiEventFilterX -Name $FilterName -CimSession $s
@@ -107,7 +109,7 @@
                     Consumer = $Consumer
                 }
                 
-                New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props -CimSession $s
+                New-CimInstance -CimClass $Class -Property $props -CimSession $s
             }
         }
         else
@@ -115,6 +117,7 @@
             if($PSCmdlet.ParameterSetName.Contains('ByName'))
             {
                 # run against localhost
+                $Class = Get-CimClass -Namespace root\subscription -ClassName __FilterToConsumerBinding
 
                 $Filter = Get-WmiEventFilterX -Name $FilterName
 
@@ -152,7 +155,7 @@
                 Consumer = $Consumer
             }
 
-            New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props
+            New-CimInstance -CimClass $Class -Property $props
         }
     }
 
