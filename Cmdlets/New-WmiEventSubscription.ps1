@@ -48,8 +48,6 @@
 
     begin
     {
-        $class = Get-CimClass -Namespace root\subscription -ClassName __FilterToConsumerBinding
-
         if($PSBoundParameters.ContainsKey('ComputerName'))
         {
             if($PSBoundParameters.ContainsKey('Credential'))
@@ -108,14 +106,16 @@
                     Filter = $Filter
                     Consumer = $Consumer
                 }
-
-                New-CimInstance -CimClass $class -Property $props -CimSession $s
+                
+                Start-Job -ScriptBlock {New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props -CimSession $s}
             }
         }
         else
         {
             if($PSCmdlet.ParameterSetName.Contains('ByName'))
             {
+                # run against localhost
+
                 $Filter = Get-WmiEventFilterX -Name $FilterName
 
                 switch($ConsumerType)
@@ -152,12 +152,15 @@
                 Consumer = $Consumer
             }
 
-            New-CimInstance -CimClass $class -Property $props
+            Start-Job -ScriptBlock {New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props}
         }
     }
 
     end
     {
+        $Null = Get-Job | Receive-Job -Wait
+        $Null = Get-Job | Remove-Job
+
         if($PSBoundParameters.ContainsKey('ComputerName'))
         {
             # Clean up the CimSessions we created to support the ComputerName parameter

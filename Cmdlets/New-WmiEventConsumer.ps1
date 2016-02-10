@@ -395,13 +395,13 @@
         {
             Write-Error -Message "$($PSCmdlet.ParameterSetName) is an invalid ParameterSet."
         }
-
-        Receive-Job -Job $Jobs -Wait
-        $Jobs | Remove-Job
     }
     
     end
     {
+        Receive-Job -Job $Jobs -Wait
+        $Jobs | Remove-Job
+        
         if($PSBoundParameters.ContainsKey('ComputerName'))
         {
             # Clean up the CimSessions we created to support the ComputerName parameter
