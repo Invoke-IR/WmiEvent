@@ -107,7 +107,7 @@
                     Consumer = $Consumer
                 }
                 
-                Start-Job -ScriptBlock {New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props -CimSession $s}
+                New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props -CimSession $s
             }
         }
         else
@@ -152,15 +152,12 @@
                 Consumer = $Consumer
             }
 
-            Start-Job -ScriptBlock {New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props}
+            New-CimInstance -Namespace root\subscription -ClassName __FilterToConsumerBinding -Property $props
         }
     }
 
     end
     {
-        $Null = Get-Job | Receive-Job -Wait
-        $Null = Get-Job | Remove-Job
-
         if($PSBoundParameters.ContainsKey('ComputerName'))
         {
             # Clean up the CimSessions we created to support the ComputerName parameter
