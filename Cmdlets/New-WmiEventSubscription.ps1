@@ -126,26 +126,32 @@
                     ActiveScriptEventConsumer
                     {
                         $Consumer = Get-ActiveScriptEventConsumerX -Name $ConsumerName
+                        break;
                     }
                     CommandLineEventConsumer
                     {
                         $Consumer = Get-CommandLineEventConsumerX -Name $ConsumerName
+                        break;
                     }
                     LogFileEventConsumer
                     {
                         $Consumer = Get-LogFileEventConsumerX -Name $ConsumerName
+                        break;
                     }
                     NtEventLogEventConsumer
                     {
                         $Consumer = Get-NtEventLogEventConsumerX -Name $ConsumerName
+                        break;
                     }
                     SmtpEventConsumer
                     {
                         $Consumer = Get-SmtpEventConsumerX -Name $ConsumerName
+                        break;
                     }
                     default
                     {
                         Write-Error -Message 'Invalid Consumer Type'
+                        break;
                     }
                 }
             }

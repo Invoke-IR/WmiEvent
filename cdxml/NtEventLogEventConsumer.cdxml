@@ -2,7 +2,7 @@
 <PowerShellMetadata xmlns="http://schemas.microsoft.com/cmdlets-over-objects/2009/11">
   <Class ClassName="root\subscription\NtEventLogEventConsumer">
     <Version>1.0.0.0</Version>
-    <DefaultNoun>NtEventLogEventConsumer</DefaultNoun>
+    <DefaultNoun>NtEventLogEventConsumerX</DefaultNoun>
     <InstanceCmdlets>
       <GetCmdletParameters/>
        <GetCmdlet>
